@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="像素游戏网：可直接在线试玩的轻量小游戏网站。" />
+    <title>像素游戏网 | 在线小游戏</title>
+    <style>
+      :root {
+        --bg: #0b1220;
+        --surface: #121c30;
+        --surface-2: #0f1729;
+        --line: #2a3b59;
+        --text: #e8eefc;
+        --muted: #9eb1d9;
+        --brand: #49d8ff;
+        --brand-2: #9e7cff;
+        --ok: #4ade80;
+        --warn: #fbbf24;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        color: var(--text);
+        font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+        background: radial-gradient(circle at 10% 0, #1b2a45, var(--bg) 48%);
+      }
+
+      .wrap {
+        width: min(1080px, 92vw);
+        margin: 0 auto;
+        padding: 24px 0 52px;
+      }
+
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      h1 { margin: 0; font-size: clamp(1.6rem, 3.2vw, 2.3rem); }
+      .sub { color: var(--muted); margin: 6px 0 0; }
+
+      .nav { display: flex; flex-wrap: wrap; gap: 8px; }
+      .nav a {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--text);
+        text-decoration: none;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+      }
+
+      .panel {
+        background: linear-gradient(180deg, var(--surface), var(--surface-2));
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,.24);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.25fr 1fr;
+        gap: 14px;
+        margin-bottom: 14px;
+      }
+
+      .btn {
+        border: none;
+        border-radius: 10px;
+        padding: 10px 14px;
+        background: linear-gradient(120deg, var(--brand), var(--brand-2));
+        color: #03101f;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .btn:disabled { opacity: .55; cursor: not-allowed; }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 12px;
+      }
+
+      .play {
+        margin-top: 14px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+        gap: 12px;
+      }
+
+      .title-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+      }
+
+      .muted { color: var(--muted); }
+      .tip { min-height: 24px; color: var(--muted); margin-top: 8px; }
+      .score { font-size: 2rem; color: var(--brand); font-weight: 800; margin: 8px 0; }
+      .good { color: var(--ok); }
+      .warn { color: var(--warn); }
+
+      input, select {
+        width: 100%;
+        background: #0a1324;
+        color: var(--text);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 10px;
+      }
+
+      .actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+      .kbd { border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; font-size: .8rem; color: var(--muted); }
+
+      footer { text-align: center; margin-top: 20px; color: var(--muted); font-size: .88rem; }
+
+      @media (max-width: 820px) {
+        .hero { grid-template-columns: 1fr; }
+        .top { flex-direction: column; align-items: flex-start; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="top">
+        <div>
+          <h1>🎮 像素游戏网</h1>
+          <p class="sub">即开即玩 · 三款小游戏 · 本地记录最高分</p>
+        </div>
+        <nav class="nav" aria-label="站内导航">
+          <a href="#library">游戏库</a>
+          <a href="#play">在线试玩</a>
+          <a href="#records">我的记录</a>
+        </nav>
+      </header>
+
+      <section class="hero" aria-label="推荐与说明">
+        <article class="panel">
+          <div class="title-row">
+            <h2>本周热门：点击冲刺</h2>
+            <span class="muted">10 秒挑战</span>
+          </div>
+          <p class="muted">你能在 10 秒内点击多少次？支持连续重开，自动保存最好成绩。</p>
+          <button id="start-clicker" class="btn">开始挑战</button>
+          <p class="tip">小提示：也可按 <span class="kbd">空格</span> 进行点击。</p>
+        </article>
+        <article class="panel">
+          <h2>站点特色</h2>
+          <ul>
+            <li>⚡ 纯静态页面，无需后端</li>
+            <li>🕹️ 三款可玩小游戏</li>
+            <li>📱 适配移动端与桌面端</li>
+            <li>💾 本地存储历史最佳成绩</li>
+          </ul>
+        </article>
+      </section>
+
+      <section id="library" class="grid" aria-label="游戏库">
+        <article class="panel"><h3>点击冲刺</h3><p class="muted">10 秒手速测试，冲击最高分。</p></article>
+        <article class="panel"><h3>猜数字</h3><p class="muted">在 1~100 内猜中随机数。</p></article>
+        <article class="panel"><h3>石头剪刀布</h3><p class="muted">和电脑来三局两胜对战。</p></article>
+      </section>
+
+      <section id="play" class="play" aria-label="在线试玩">
+        <article class="panel">
+          <h3>点击冲刺</h3>
+          <div>剩余时间：<b id="time">10</b>s</div>
+          <div class="score" id="score">0</div>
+          <button id="click-btn" class="btn" disabled>点击 +1</button>
+          <p id="click-tip" class="tip">点击“开始挑战”后计时开始。</p>
+          <p class="muted">历史最高：<b id="best-click">0</b></p>
+        </article>
+
+        <article class="panel">
+          <h3>猜数字</h3>
+          <label for="guess">输入 1 - 100：</label>
+          <input id="guess" type="number" min="1" max="100" />
+          <div class="actions">
+            <button id="guess-btn" class="btn">提交</button>
+            <button id="guess-reset" class="btn">重置</button>
+          </div>
+          <p id="guess-tip" class="tip">我已经想好一个数字了！</p>
+          <p class="muted">历史最少步数：<b id="best-guess">-</b></p>
+        </article>
+
+        <article class="panel">
+          <h3>石头剪刀布</h3>
+          <label for="rps">选择出拳：</label>
+          <select id="rps">
+            <option value="石头">石头</option>
+            <option value="剪刀">剪刀</option>
+            <option value="布">布</option>
+          </select>
+          <div class="actions">
+            <button id="rps-play" class="btn">出拳</button>
+            <button id="rps-reset" class="btn">清零</button>
+          </div>
+          <p id="rps-tip" class="tip">先赢 2 局即获胜。</p>
+          <p class="muted">比分：你 <b id="user-win">0</b> : <b id="pc-win">0</b> 电脑</p>
+        </article>
+      </section>
+
+      <section id="records" class="panel" style="margin-top: 12px;">
+        <h3>我的记录</h3>
+        <p class="muted">点击冲刺最高分：<b id="record-click">0</b> ｜ 猜数字最少步数：<b id="record-guess">-</b></p>
+      </section>
+
+      <footer>© 2026 像素游戏网 · Just Play</footer>
+    </main>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+
+      const state = {
+        clickBest: Number(localStorage.getItem('clickBest') || 0),
+        guessBest: Number(localStorage.getItem('guessBest') || 0) || null,
+      };
+
+      const syncRecords = () => {
+        $('best-click').textContent = state.clickBest;
+        $('record-click').textContent = state.clickBest;
+        $('best-guess').textContent = state.guessBest ? state.guessBest : '-';
+        $('record-guess').textContent = state.guessBest ? state.guessBest : '-';
+      };
+      syncRecords();
+
+      // Clicker
+      let score = 0;
+      let timeLeft = 10;
+      let timer = null;
+
+      const resetClicker = () => {
+        score = 0;
+        timeLeft = 10;
+        $('score').textContent = '0';
+        $('time').textContent = '10';
+      };
+
+      $('start-clicker').addEventListener('click', () => {
+        resetClicker();
+        $('click-btn').disabled = false;
+        $('click-tip').textContent = '开始！快点击！';
+        clearInterval(timer);
+        timer = setInterval(() => {
+          timeLeft -= 1;
+          $('time').textContent = String(timeLeft);
+          if (timeLeft <= 0) {
+            clearInterval(timer);
+            $('click-btn').disabled = true;
+            if (score > state.clickBest) {
+              state.clickBest = score;
+              localStorage.setItem('clickBest', String(score));
+              syncRecords();
+              $('click-tip').innerHTML = `挑战结束：<span class="good">${score} 分，刷新纪录！</span>`;
+            } else {
+              $('click-tip').innerHTML = `挑战结束：<span class="warn">${score} 分</span>，继续加油！`;
+            }
+          }
+        }, 1000);
+      });
+
+      const addClickScore = () => {
+        if (timeLeft > 0 && !$('click-btn').disabled) {
+          score += 1;
+          $('score').textContent = String(score);
+        }
+      };
+
+      $('click-btn').addEventListener('click', addClickScore);
+      document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space') {
+          e.preventDefault();
+          addClickScore();
+        }
+      });
+
+      // Guess number
+      let target = Math.floor(Math.random() * 100) + 1;
+      let attempts = 0;
+
+      const resetGuess = () => {
+        target = Math.floor(Math.random() * 100) + 1;
+        attempts = 0;
+        $('guess').value = '';
+        $('guess-tip').textContent = '新数字已生成，继续挑战！';
+      };
+
+      $('guess-btn').addEventListener('click', () => {
+        const value = Number($('guess').value);
+        if (!Number.isInteger(value) || value < 1 || value > 100) {
+          $('guess-tip').textContent = '请输入 1 到 100 的整数。';
+          return;
+        }
+        attempts += 1;
+        if (value === target) {
+          if (!state.guessBest || attempts < state.guessBest) {
+            state.guessBest = attempts;
+            localStorage.setItem('guessBest', String(attempts));
+            syncRecords();
+            $('guess-tip').innerHTML = `答对了！<span class="good">${attempts} 步（新纪录）</span>`;
+          } else {
+            $('guess-tip').textContent = `答对了！你用了 ${attempts} 步。`;
+          }
+        } else {
+          $('guess-tip').textContent = value < target ? '太小了，再试试。' : '太大了，再试试。';
+        }
+      });
+      $('guess-reset').addEventListener('click', resetGuess);
+
+      // Rock paper scissors
+      const options = ['石头', '剪刀', '布'];
+      let userWin = 0;
+      let pcWin = 0;
+
+      const updateRpsScore = () => {
+        $('user-win').textContent = String(userWin);
+        $('pc-win').textContent = String(pcWin);
+      };
+
+      const compare = (u, p) => {
+        if (u === p) return 0;
+        if ((u === '石头' && p === '剪刀') || (u === '剪刀' && p === '布') || (u === '布' && p === '石头')) return 1;
+        return -1;
+      };
+
+      $('rps-play').addEventListener('click', () => {
+        if (userWin >= 2 || pcWin >= 2) {
+          $('rps-tip').textContent = '本轮已结束，请点击“清零”重新开始。';
+          return;
+        }
+        const user = $('rps').value;
+        const pc = options[Math.floor(Math.random() * 3)];
+        const r = compare(user, pc);
+        if (r === 1) userWin += 1;
+        if (r === -1) pcWin += 1;
+        updateRpsScore();
+
+        if (userWin >= 2 || pcWin >= 2) {
+          $('rps-tip').textContent = userWin > pcWin ? `你出${user}，电脑出${pc}。你赢下本轮！` : `你出${user}，电脑出${pc}。电脑获胜！`;
+        } else {
+          $('rps-tip').textContent = `你出${user}，电脑出${pc}。继续下一局。`;
+        }
+      });
+
+      $('rps-reset').addEventListener('click', () => {
+        userWin = 0;
+        pcWin = 0;
+        updateRpsScore();
+        $('rps-tip').textContent = '已清零，开始新一轮。';
+      });
+    </script>
+  </body>
+</html>
